@@ -19,25 +19,25 @@ struct User {
     string nim;
 };
 
-void tambahProduk(Skincare produk[], int &total_produk) {
-    if (total_produk < 100) {
+void tambahProduk(Skincare *produk, int *total_produk) {
+    if (*total_produk < 100) {
         cout << "Masukkan merk skincare: ";
-        getline(cin, produk[total_produk].merk);
+        getline(cin, produk[*total_produk].merk);
         cout << "Masukkan jenis skincare: ";
-        getline(cin, produk[total_produk].jenis);
+        getline(cin, produk[*total_produk].jenis);
         cout << "Masukkan harga skincare: ";
-        cin >> produk[total_produk].harga;
+        cin >> produk[*total_produk].harga;
         cin.ignore();
         cout << "Masukkan kategori skincare (Face/Body/Hair): ";
-        getline(cin, produk[total_produk].kategori.nama);
-        total_produk++;
+        getline(cin, produk[*total_produk].kategori.nama);
+        (*total_produk)++;
         cout << "Data berhasil ditambahkan!" << endl;
     } else {
         cout << "Jumlah data sudah penuh!" << endl;
     }
 }
 
-void tampilkanProduk(Skincare produk[], int total_produk) {
+void tampilkanProduk(Skincare *produk, int total_produk) {
     if (total_produk == 0) {
         cout << "Belum ada data produk skincare." << endl;
     } else {
@@ -55,7 +55,7 @@ void tampilkanProduk(Skincare produk[], int total_produk) {
     }
 }
 
-void perbaruiProduk(Skincare produk[], int total_produk) {
+void perbaruiProduk(Skincare *produk, int total_produk) {
     tampilkanProduk(produk, total_produk);
     int no;
     cout << "Masukkan nomor produk yang ingin diperbarui: ";
@@ -77,19 +77,19 @@ void perbaruiProduk(Skincare produk[], int total_produk) {
     }
 }
 
-void hapusProduk(Skincare produk[], int &total_produk) {
-    tampilkanProduk(produk, total_produk);
+void hapusProduk(Skincare *produk, int *total_produk) {
+    tampilkanProduk(produk, *total_produk);
     int no;
     cout << "Masukkan nomor produk yang ingin dihapus: ";
     cin >> no;
     cin.ignore();
-    if (no < 1 || no > total_produk) {
+    if (no < 1 || no > *total_produk) {
         cout << "Nomor produk tidak valid" << endl;
     } else {
-        for (int i = no - 1; i < total_produk - 1; ++i) {
+        for (int i = no - 1; i < *total_produk - 1; ++i) {
             produk[i] = produk[i + 1];
         }
-        total_produk--;
+        (*total_produk)--;
         cout << "Data berhasil dihapus!" << endl;
     }
 }
@@ -158,7 +158,7 @@ int main() {
 
                         switch (pilihan_menu) {
                             case 1:
-                                tambahProduk(produk, total_produk);
+                                tambahProduk(produk, &total_produk);
                                 break;
                             case 2:
                                 tampilkanProduk(produk, total_produk);
@@ -167,7 +167,7 @@ int main() {
                                 perbaruiProduk(produk, total_produk);
                                 break;
                             case 4:
-                                hapusProduk(produk, total_produk);
+                                hapusProduk(produk, &total_produk);
                                 break;
                             case 5:
                                 cout << "Logout berhasil! Kembali ke menu login/register >,<" << endl;
@@ -210,7 +210,7 @@ int main() {
                     users[total_user++] = {nama, nim};
                     cout << "Registrasi berhasil!" << endl;
                 }
-                
+
             } else {
                 cout << "Yahhh jumlah pengguna sudah maksimal" << endl;
             }
